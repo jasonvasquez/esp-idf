@@ -14,6 +14,7 @@ RUN \
        gperf \
        python \
        python-serial \
+       gosu \
   && mkdir /esp
 
 ENV \
@@ -35,4 +36,23 @@ ENV \
   PATH=$PATH:/esp/xtensa-esp32-elf/bin \
   IDF_PATH=/esp/esp-idf
 
-WORKDIR /esp
+# work environment
+COPY user-mapping.sh /
+
+ENV USER=esp32 USER_ID=1000 USER_GID=1000
+
+RUN \
+     groupadd --gid "${USER_GID}" "${USER}" \
+  && useradd \
+       --uid ${USER_ID} \
+       --gid ${USER_GID} \
+       --create-home \
+       --shell /bin/bash \
+       ${USER} \
+  && chmod u+x /user-mapping.sh \
+  && mkdir /src
+
+WORKDIR /src
+
+ENTRYPOINT ["/user-mapping.sh"]
+CMD ["/bin/bash"]
