@@ -50,6 +50,7 @@ RUN \
        --shell /bin/bash \
        ${USER} \
   && chmod u+x /user-mapping.sh \
+  && chmod -R go+w /esp \
   && mkdir /src
 
 WORKDIR /src

@@ -25,6 +25,5 @@ sed -i -e "s/^${USER}:\([^:]*\):[0-9]*:[0-9]*/${USER}:\1:${USER_ID}:${USER_GID}/
 sed -i -e "s/^${USER}:\([^:]*\):[0-9]*/${USER}:\1:${USER_GID}/"  /etc/group
 
 chown -R ${USER_ID}:${USER_GID} ${USER_HOME}
-chown -R ${USER_ID}:${USER_GID} /esp
 
 gosu ${USER} $*
